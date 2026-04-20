@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars Mela 2026 - Port Grand</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* GTR R34 Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            background-image: url('./images.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            filter: brightness(0.5) contrast(1.1);
+            z-index: 1;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.3) 0%, rgba(230, 126, 34, 0.3) 100%);
+            z-index: 2;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 3;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+        }
+
+        /* Title */
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.9);
+            background: linear-gradient(135deg, #9b59b6 0%, #e67e22 50%, #f39c12 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Subtitle */
+        .subtitle {
+            font-size: 1rem;
+            color: #f39c12;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Event Details */
+        .event-details {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            padding: 20px 35px;
+            border-radius: 15px;
+            border: 2px solid rgba(243, 156, 18, 0.4);
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px 0 rgba(155, 89, 182, 0.3);
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .event-details p {
+            font-size: 1rem;
+            margin: 6px 0;
+            font-weight: 500;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .location {
+            color: #00bcd4;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .date-time {
+            color: #ffc107;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .description {
+            color: #f39c12;
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+
+        /* Countdown Timer */
+        .countdown-section {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 30px 30px;
+            border-radius: 20px;
+            border: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)), 
+                              linear-gradient(135deg, #9b59b6, #e67e22, #f39c12);
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            box-shadow: 0 8px 40px rgba(155, 89, 182, 0.25), inset 0 0 20px rgba(255, 255, 255, 0.08);
+            max-width: 600px;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        .countdown-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #9b59b6, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(230, 126, 34, 0.2));
+            padding: 22px 18px;
+            border-radius: 12px;
+            border: 2px solid rgba(243, 156, 18, 0.5);
+            min-width: 90px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.2);
+        }
+
+        .time-unit:hover {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.35), rgba(230, 126, 34, 0.35));
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+            border-color: #f39c12;
+        }
+
+        .time-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #9b59b6, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.75rem;
+            color: #00bcd4;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 12px;
+            }
+
+            .event-details {
+                padding: 15px 20px;
+                margin-bottom: 20px;
+            }
+
+            .event-details p {
+                font-size: 0.9rem;
+            }
+
+            .location, .date-time {
+                font-size: 1rem;
+            }
+
+            .countdown-section {
+                max-width: 95vw;
+                padding: 20px 15px;
+            }
+
+            .countdown-title {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+
+            .time-value {
+                font-size: 1.6rem;
+            }
+
+            .time-unit {
+                min-width: 75px;
+                padding: 15px 10px;
+            }
+
+            .time-label {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>🏎️ CARS MELA 2026 🏎️</h1>
+        <div class="subtitle">Buckle Up for an Unforgettable Experience!</div>
+
+        <div class="event-details">
+            <p class="location">📍 Port Grand, Karachi</p>
+            <p class="date-time">🕒 May 1, 2026 at 6:00 PM</p>
+            <p class="description">✨ The Ultimate Automotive Celebration Awaits You! ✨</p>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="countdown-section">
+            <div class="countdown-title">⏱️ Get Ready In...</div>
+            <div class="countdown-timer">
+                <div class="time-unit">
+                    <span class="time-value" id="days">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="hours">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="minutes">00</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="seconds">00</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            // Set the target date: May 1, 2026 at 18:00 PM (6:00 PM)
+            const targetDate = new Date('2026-05-01T18:00:00').getTime();
+            
+            // Update every second
+            const timer = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                // Calculate time units
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Update the DOM
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+                // If countdown is finished
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.getElementById('days').textContent = '00';
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    document.querySelector('.countdown-title').textContent = 'EVENT IS LIVE NOW! 🎉';
+                }
+            }, 1000);
+        }
+
+        // Start countdown when page loads
+        window.addEventListener('load', updateCountdown);
+    </script>
+</body>
+</html>
